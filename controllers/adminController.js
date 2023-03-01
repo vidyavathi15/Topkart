@@ -1,4 +1,5 @@
 import Deal from "../models/dealModel.js";
+import Order from "../models/orderModel.js";
 import { validateInput, validateUpdate } from "../helper/validateInput.js";
 
 
@@ -41,7 +42,7 @@ export const updateDeal = async (req, res) => {
   if (validationError) {
     return res.status(400).json({ error: validationError });
   }
-  
+
   try {
     const deal = await Deal.findById(req.params.id);
     if (!deal) throw new Error("Deal not found");
@@ -61,5 +62,21 @@ export const updateDeal = async (req, res) => {
     res.status(400).json({message: error.message})
   }
 };
+
+
+//approve an order
+export const approveOrder = async(req,res) => {
+   try {
+     const order = await Order.findById(req.params.id) 
+     if(!order) throw new Error ('Order not found');
+     
+       order.status = "approved"
+       const approvedOrder = await order.save();
+       res.status(200).json(approvedOrder);
+     
+   } catch (error) {
+      res.status(400).json({message:error.message})
+   }
+}
 
 

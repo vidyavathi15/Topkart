@@ -23,6 +23,11 @@ export const validateInput = (data)=> {
       if (expiryTime < Date.now()) {
         return 'Expiry time cannot be in the past';
       }
+      
+      const timeToExpire = Math.abs(expiryTime - Date.now())/(60 * 60 * 1000);
+      if(timeToExpire > 12){
+        return 'Expiry time cannot be more than 12 hours'
+      }
     } catch (error) {
       return 'Invalid expiry time format';
     }
@@ -38,6 +43,11 @@ export const validateUpdate = (data) => {
       if (expiryTime < Date.now()) {
         return 'Expiry time cannot be in the past';
       }
+      const timeToExpire = Math.abs(expiryTime - Date.now())/(60 * 60 * 1000);
+      if(timeToExpire > 12){
+        return 'Expiry time cannot be more than 12 hours'
+      }
+
     } catch (error) {
       return 'Invalid expiry time format';
     }

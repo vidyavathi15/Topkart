@@ -44,6 +44,9 @@ export const getAllDeals = async (req, res) => {
 // place order for a lightning deal
 
 export const placeOrder = async(req,res) => {
+  try {
+    
+  
     const id = req.params.id;
     const deal = await Deal.findById(req.params.id);
 
@@ -72,9 +75,27 @@ export const placeOrder = async(req,res) => {
     })
     
     const orderSaved = await orderDetails.save();
-    console.log(orderSaved);
+    
     
     res.status(200).json(orderSaved);
+    } catch (error) {
+    res.status(500).json({message:error.message})
+  }
 }
 
 
+
+// view order status
+
+export const orderStatus = async(req,res) => {
+   try {
+     const order = await Order.findById(req.params.id);
+     if(!order){
+        return res.status(404).json({error:"Order does not exist"})
+     }
+     res.status(200).json(order); 
+   } catch (error) {
+    res.status(500).json({message:error.message})
+      
+   }
+}
