@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post('/deals', createNewDeal)
 router.put('/deals/:id/update',updateDeal)
+router.put('/deals/:id')
 
 export default router;

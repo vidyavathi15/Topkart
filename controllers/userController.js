@@ -1,5 +1,5 @@
 import Deal from "../models/dealModel.js";
-
+import Order from "../models/orderModel.js";
 
 //get all unexpired deals
 
@@ -63,12 +63,18 @@ export const placeOrder = async(req,res) => {
     deal.availableUnits -= req.body.requiredUnits;
     
     const updateDeal = await deal.save();
-   
-    const orderDetails = {
+    
+    //saving to order collection
+    const orderDetails = new Order({
         deal: updateDeal._id,
         email: req.body.email,
         status: 'pending'
-    }
-
-    res.status(200).json(orderDetails)
+    })
+    
+    const orderSaved = await orderDetails.save();
+    console.log(orderSaved);
+    
+    res.status(200).json(orderSaved);
 }
+
+
