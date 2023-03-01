@@ -3,7 +3,8 @@ import bodyParser from "body-Parser";
 import connectDB from "./config/connection.js"
 import dotenv from "dotenv";
 import errorHandler from "./middleware/errorMiddleware.js";
-import dealRoute from "./routes/dealRoute.js"
+import adminRoute from "./routes/adminRoute.js"
+import userRoute from "./routes/userRoute.js"
 
 
 dotenv.config();
@@ -24,7 +25,8 @@ app.use(bodyParser.urlencoded({limit:"30mb",extended:true}));
 
 
 //routes usage
-app.use('/deal',dealRoute);
+app.use('/admin',adminRoute);
+app.use('/',userRoute);
 
 
 //error middlware
