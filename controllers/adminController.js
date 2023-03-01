@@ -3,9 +3,11 @@ import { validateInput, validateUpdate } from "../helper/validateInput.js";
 
 
 
-//validate the input and create a new lightning deal
+//create a new lightning deal
 
 export const createNewDeal = async (req, res) => {
+  
+  //validate input
   const validationError = await validateInput(req.body);
   if (validationError) {
     return res.status(400).json({ error: validationError });
@@ -32,10 +34,14 @@ export const createNewDeal = async (req, res) => {
 //update an existing lightning deal
 
 export const updateDeal = async (req, res) => {
+
+  //validation check for expiry time
   const validationError = await validateUpdate(req.body);
+
   if (validationError) {
     return res.status(400).json({ error: validationError });
   }
+  
   try {
     const deal = await Deal.findById(req.params.id);
     if (!deal) throw new Error("Deal not found");
