@@ -1,4 +1,4 @@
-// Helper function to validate input data while creating a new deal by admin
+//validate input data while creating a new deal by admin
 export const validateInput = (data)=> {
     if (!data.productName) {
       return 'Name is required';
@@ -27,3 +27,21 @@ export const validateInput = (data)=> {
       return 'Invalid expiry time format';
     }
   }
+
+
+//validate input on deal updation by admin
+
+export const validateUpdate = (data) => {
+  if(data.expiryTime){
+    try {
+      const expiryTime = new Date(data.expiryTime);
+      if (expiryTime < Date.now()) {
+        return 'Expiry time cannot be in the past';
+      }
+    } catch (error) {
+      return 'Invalid expiry time format';
+    }
+  }
+}
+
+
