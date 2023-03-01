@@ -14,6 +14,10 @@ export const createNewDeal = async (req, res) => {
     return res.status(400).json({ error: validationError });
   }
 
+  //checking weather deal alerady exist
+  const dealAlreadyExist = await Deal.find({"productName": req.body.productName});
+  if(dealAlreadyExist) return res.status(400).json({error: "Deal already exist"});
+
   const deal = new Deal({
     productName: req.body.productName,
     actualPrice: req.body.actualPrice,
