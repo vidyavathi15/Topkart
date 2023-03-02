@@ -1,13 +1,18 @@
 import Deal from "../models/dealModel.js";
 import Order from "../models/orderModel.js";
 import { validateInput, validateUpdate } from "../helper/validateInput.js";
-
+import { verifyAdmin } from "../helper/adminValidation.js";
 
 
 //create a new lightning deal
 
 export const createNewDeal = async (req, res) => {
-  
+
+  //verifying admin
+  const notAdmin = await verifyAdmin(req.body.adminId)
+  if(notAdmin){
+    return res.status(400).json({error: "Admin authentication failed"})
+  } 
   //validate input
   const validationError = await validateInput(req.body);
   if (validationError) {
@@ -39,6 +44,12 @@ export const createNewDeal = async (req, res) => {
 //update an existing lightning deal
 
 export const updateDeal = async (req, res) => {
+  
+  //verifying admin
+  const notAdmin = await verifyAdmin(req.body.adminId)
+  if(notAdmin){
+    return res.status(400).json({error: "Admin authentication failed"})
+  } 
 
   //validation check for expiry time
   const validationError = await validateUpdate(req.body);
@@ -70,6 +81,13 @@ export const updateDeal = async (req, res) => {
 
 //approve an order
 export const approveOrder = async(req,res) => {
+    
+   //verifying admin
+  const notAdmin = await verifyAdmin(req.body.adminId)
+  if(notAdmin){
+    return res.status(400).json({error: "Admin authentication failed"})
+  }
+    
    try {
      const order = await Order.findById(req.params.id) 
      if(!order) throw new Error ('Order not found');
