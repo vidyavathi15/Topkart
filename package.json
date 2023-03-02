@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon index.js"
   },
-  "author": "Sachin Raj",
+  "author": "Vidya",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.20"
